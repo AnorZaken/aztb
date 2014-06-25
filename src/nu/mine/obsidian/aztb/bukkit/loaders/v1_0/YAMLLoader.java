@@ -20,9 +20,9 @@ package nu.mine.obsidian.aztb.bukkit.loaders.v1_0;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -37,7 +37,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * <p/>(*<i>Sometimes you want to load a file </i>if<i> it exists - then FileNotFound is not an error.</i>)
  * 
  * @author AnorZaken
- * @version 1.0
+ * @version 1.1
  * 
  * @param <T> {@link JavaPlugin} using {@link YAMLLoader}
  */
@@ -113,15 +113,16 @@ public class YAMLLoader<T extends JavaPlugin>
 	 * @param failIfFileNotFound if this is {@code true} FileNotFound will be treated like a failed loading
 	 * @param errorLoadingMsg message to send if loading fails (if this is {@code null} a default message will be used)
 	 * <br>&nbsp&nbsp&nbsp(<i>Default: "Error loading config, see server log for details."</i>)
-	 * @return a {@link YAMLLoader.YAMLResult}-object,<br> or {@code null} (if {@code !plugin.isEnabled() || plugin.getDataFolder() == null}).
+	 * @return a {@link YAMLLoader.YAMLResult} object
+	 * @throws IllegalStateException if the plugin associated with this {@link YAMLLoader} isn't properly enabled
 	 */
 	public YAMLResult loadYaml(final CommandSender sender, boolean failIfFileNotFound, final String errorLoadingMsg)
 	{
-		if (plugin == null || !plugin.isEnabled() || plugin.getDataFolder() == null)
-			return null;
+		if (!plugin.isEnabled() || plugin.getDataFolder() == null)
+			throw new IllegalStateException("plugin is not properly enabled");
 		
-		File configFile = getFile();
-		YAMLResult yamlResult = new YAMLResult();
+		final File configFile = getFile();
+		final YAMLResult yamlResult = new YAMLResult();
 		
 		try
         {
@@ -137,7 +138,7 @@ public class YAMLLoader<T extends JavaPlugin>
 						sender.sendMessage(errorLoadingMsg);
 					else
 						sender.sendMessage(ChatColor.RED + "Error loading config, see server log for details.");
-					Bukkit.getLogger().log(Level.WARNING, 
+					plugin.getLogger().log(Level.WARNING, 
 							(new StringBuilder()).append("Cannot load ").append(configFile).toString() + " : " + ex.getClass().toString());
 				}
 				yamlResult.yaml = null;
@@ -152,7 +153,7 @@ public class YAMLLoader<T extends JavaPlugin>
 					sender.sendMessage(errorLoadingMsg);
 				else
 					sender.sendMessage(ChatColor.RED + "Error loading config, see server log for details.");
-				Bukkit.getLogger().log(Level.WARNING, 
+				plugin.getLogger().log(Level.WARNING, 
 						(new StringBuilder()).append("Cannot load ").append(configFile).toString() + " : " + ex.getClass().toString());
 			}
 			yamlResult.isValidConfig = false;
@@ -166,12 +167,52 @@ public class YAMLLoader<T extends JavaPlugin>
 					sender.sendMessage(errorLoadingMsg);
 				else
 					sender.sendMessage(ChatColor.RED + "Error loading config, see server log for details.");
-				Bukkit.getLogger().log(Level.WARNING, 
+				plugin.getLogger().log(Level.WARNING, 
 						(new StringBuilder()).append("Cannot load ").append(configFile).toString() + " : " + ex.getClass().toString());
 			}
 			yamlResult.yaml = null;
         }
 		
 		return yamlResult;
+	}
+	
+	
+	/**
+	 * Saves a {@link YamlConfiguration} to the yaml-file associated with this {@link YAMLLoader}. 
+	 * @param sender {@link CommandSender} to send messages to (or {@code null} if silent operation is desired)
+	 * @param config
+	 * @param errorSavingMsg message to send if saving fails (if this is {@code null} a default message will be used)
+	 * <br>&nbsp&nbsp&nbsp(<i>Default: "Error saving config, see server log for details."</i>)
+	 * @return <code>true</code> if the config was saved successfully, <code>false</code> otherwise
+	 * @throws IllegalStateException if the plugin associated with this {@link YAMLLoader} isn't properly enabled
+	 * @throws IllegalArgumentException if the {@link YamlConfiguration} is <code>null</code>
+	 */
+	public boolean saveYaml(final CommandSender sender, final YamlConfiguration config, final String errorSavingMsg)
+	{
+		if (config == null)
+			throw new IllegalArgumentException("config == null");
+		if (!plugin.isEnabled() || plugin.getDataFolder() == null)
+			throw new IllegalStateException("plugin is not properly enabled");
+		
+		final File configFile = getFile();
+		
+		try
+        {
+			config.save(configFile);
+        }
+		catch(IOException ex)
+        {
+			if (sender != null)
+			{
+				if (errorSavingMsg != null)
+					sender.sendMessage(errorSavingMsg);
+				else
+					sender.sendMessage(ChatColor.RED + "Error saving config, see server log for details.");
+				plugin.getLogger().log(Level.WARNING, 
+						(new StringBuilder()).append("Could not save config to ").append(configFile).toString() + " : " + ex.getClass().toString());
+			}
+			return false;
+        }
+		return true;
 	}
 }
