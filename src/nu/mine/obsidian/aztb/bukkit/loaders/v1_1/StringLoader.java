@@ -1,4 +1,4 @@
-package nu.mine.obsidian.aztb.bukkit.loaders.v1_0;
+package nu.mine.obsidian.aztb.bukkit.loaders.v1_1;
 
 /* Copyright (C) 2014 Nicklas Damgren (aka AnorZaken)
  * 
@@ -18,9 +18,7 @@ package nu.mine.obsidian.aztb.bukkit.loaders.v1_0;
  * along with AZTB.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,7 +32,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * {@link ISubscriber#getStringToLoadArray(int)} to acquire these on each load.</i> )<br>
  * 
  * @author AnorZaken
- * @version 1.0b
+ * @version 1.1
  * @param <T> {@link JavaPlugin} using {@link StringLoader}
  */
 public class StringLoader<T extends JavaPlugin>
@@ -585,31 +583,16 @@ public class StringLoader<T extends JavaPlugin>
 		
 		if (missingCount > 0 && missingAction != MissingAction.NO_ACTION)
 		{
-			File configFile = loader.getFile();
-			
 			if (yamlHeader != null && (yaml.options().header() == null || yaml.options().header().length() == 0))
 				yaml.options().header(yamlHeader);
 			
-			try
-            {
-				yaml.save(configFile);
-            }
-			catch(Exception ex)
-            {
+			if (loader.saveYaml(sender, yaml, msgProvider.cfg_errorSaving(), true, null))
+			{
 				if (sender != null) {
-					final String s = msgProvider.cfg_errorSaving();
-					sender.sendMessage(s);
+					final String s = msgProvider.cfg_addedMissing(missingCount, loader.filename);
+					if (s != null)
+						sender.sendMessage(s);
 				}
-				loader.plugin.getLogger().log(Level.SEVERE, 
-						(new StringBuilder()).append("Could not save config to ").append(configFile).toString(), ex);
-				return true;
-				//We are only reporting the success / fail of loading - no matter if saving failed/succeeded.
-            }
-			
-			if (sender != null) {
-				String s = msgProvider.cfg_addedMissing(missingCount, loader.filename);
-				if (s != null)
-					sender.sendMessage(s);
 			}
 		}		
 		
@@ -637,31 +620,34 @@ public class StringLoader<T extends JavaPlugin>
 		if (templateFilename == null || templateFilename.length() == 0)
 			throw new IllegalArgumentException("templateFilename null or empty!");
 		
-		File file = new File(loader.plugin.getDataFolder(), templateFilename);
-		//final YAMLLoader<T> saver = new YAMLLoader<T>(loader.plugin, templateFilename);
+		final YAMLLoader<T> saver = new YAMLLoader<T>(loader.plugin, templateFilename);
 		
 		try
 		{
-			if (file.exists() && !allowOverwrite)
+			if (saver.getFile().exists() && !allowOverwrite)
 			{
-				if (sender != null) {
-					final String s = msgProvider.cfg_saveFileExists(templateFilename);
-					sender.sendMessage(s);
-				}
+				saver.messageSender.errorFileExists(sender, msgProvider.cfg_saveFileExists(templateFilename));
 				return false;
 			}
 		}
 		catch (Exception ex)
 		{
-			if (sender != null)
-			{
-				final String s = msgProvider.cfg_errorSaving();
-				sender.sendMessage(s);
-				loader.plugin.getLogger().log(Level.SEVERE, (new StringBuilder()).append("Could not save config to ").append(file).toString(), ex);
-			}
+			saver.messageSender.errorSaving(sender, msgProvider.cfg_errorSaving(), ex);
 			return false;
 		}
 		
+		final YamlConfiguration yaml = buildYaml(sender);
+		
+		return saver.saveYaml(sender, yaml, msgProvider.cfg_errorSaving(), allowOverwrite, null);
+	}
+	
+	/**
+	 * Builds a {@link YamlConfiguration} from all the {@link ISubscriber ISubscribers}. 
+	 * </p><i>Used by {@link #saveStrings(CommandSender, boolean, String)}</i>
+	 * @return a {@link YamlConfiguration} ready for saving to file
+	 */
+	protected YamlConfiguration buildYaml(final CommandSender sender)
+	{
 		YamlConfiguration yaml = new YamlConfiguration();
 		
 		if (yamlHeader != null)
@@ -670,6 +656,7 @@ public class StringLoader<T extends JavaPlugin>
 		for (ISubscriber insl : subscribers) {
 			IStringToLoad[] istlArr;
 			for (int i = 0; (istlArr = insl.getStringToLoadArray(i)) != null; ++i)
+			{
 				for (IStringToLoad istl : istlArr)
 				{
 					if (istl == null) {
@@ -697,24 +684,9 @@ public class StringLoader<T extends JavaPlugin>
 					}
 					yaml.set (cfg, str);
 				}
+			}
 		}
 		
-		
-		try
-        {
-			yaml.save(file);
-        }
-		catch(Exception ex)
-        {
-			if (sender != null)
-			{
-				final String s = msgProvider.cfg_errorSaving();
-				sender.sendMessage(s);
-				loader.plugin.getLogger().log(Level.SEVERE, (new StringBuilder()).append("Could not save config to ").append(file).toString(), ex);
-			}
-			return false;
-        }
-		
-		return true;
+		return yaml;
 	}
 }
