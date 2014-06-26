@@ -1,0 +1,162 @@
+v2.x - [TODO]
+
+	Possibility to downgrade, or upgrade to a version that is newer but not the latest.
+	Update notification aggregation - collect update notifications from multiple plugins
+	Create optional UpdateManager plugin that allows easy update management of all plugins using PluginUpdater.
+	 - Step2: Enable automatic finding of project id
+	  ...(compare filenames + if multiple filenames match: download to temp folder and compare)
+	 - Step3: Support automatic updating of ALL plugins, even non-PluginUpdater enabled ones!
+	Enable skipping versions
+	 - If an update is found that the server owner doesn't want to download, he/she can "Skip" that version
+	  ...Thus the updater will not consider that version an update anymore (but next release will be)
+	 - Auto "Skip" running version on downgrade.
+
+v1.x - [TODO]
+
+	Write the missing JavaDoc entries (most notably for the easyMode!)
+	Implement optional easy-mode download progress reporting.
+	Implement optional easy-mode on-login notification
+	Implement optional easy-mode timed update-check + admin notification
+	 - If server up-time > x days, check for update every x days. If update found - notify admins.
+	Implement an Updater-log
+	 - Logs all updates: from-version, to-version and date:time.
+	 - Maybe also "initiator" (player-name/console).
+	Move PluginUpdater global config to its own config-file (as opposed to using the same one as Updater2.0)
+	 - Have its own global disable option, but also...
+	 - Have a config option "RespectGravityUpdaterDisable" [default: true]
+	   ...retaining old behavior of disabling if Updater2.0 is globally disabled.
+	 - Have a global "Notify only" option. (As suggested by Bobcat00)
+	Add "force" option for updater to ignore non-update tags.
+	Add an optional list of known older versions (in effect making dev / pre versions updateable)
+	 
+v1.3.1 - [tl:dr! #2]
+
+	Lowered PluginUpdaters thread priority a bit.
+	Changed web User-Agent - it is now in compliant form!
+	 - Should be: "User-Agent: {Application Name}/v{version} (by {author})"
+	 - Old value: "Updater (Anorzakens fork from Gravitys v2)"
+	 - New value: "PluginUpdater/v1.3.1 (by AnorZaken)"
+	Changed doing a stack-trace if trying to access curseforge.com returns an IOException to only logging the exception message.
+	Condensed (and made some small corrections to) a lot of messages again:
+	 - Changed "No update required - already running {plugin}"
+	        to "No update required for {plugin}"
+	 - Changed "Previous update tasks for {plugin} still in progress. Please wait..."
+	        to "Busy with other tasks for {plugin}. Please wait..."
+	 - Changed "No update action has been requested yet. PluginUpdater idle."
+	        to "No update task requested yet. PluginUpdater idle."
+	 - Changed "Server is currently running " to "Server version: " (SPECIAL_TAG)
+	 - Changed "It will be automatically installed on the next server restart / reload."
+	        to "It will automatically install on server restart / reload."
+	 - Changed "Update action "{action}" started for {plugin}..."
+	        to "{action} started for {plugin}..."
+	 - Changed "The requested update actions for {plugin} is already underway. Please wait..."
+	        to "Requested {action} for {plugin} already in progress..."
+	 - Changed "Plugin Updater had mixed success initiating the requested update actions for {plugin}
+	            Requested actions: {...}
+	            Actions in progress: {...}"
+	        to "Mixed success initiating the requested task for {plugin}
+	            Requested: {...} , In progress: {...}"
+	 - Changed "Plugin Updater couldn't perform the requested update actions for {plugin}
+    			This is because the supplied / contained UpdateResult object was not suitable...
+    			There are multiple possible causes for this... Recommend try again later..."
+    		to "Couldn't perform requested update task for {plugin}
+    			Supplied / contained UpdateResult object was not suitable.
+    			There can be multiple causes... Recommended: Try again later."
+     - Changed "Plugin Updater couldn't perform the requested update actions for {plugin} because it received incorrect parameters."
+    		to "Couldn't perform requested update task for {plugin}
+    			Cause: Received incorrect parameters."
+     - Changed "An update action was requested for {plugin}
+    			However Plugin Updater was already busy processing an update action for that plugin.
+    			Hence the recently requested update action could not be performed. Try again later."
+    		to "Couldn't perform requested update task for {plugin}
+    		    Other task already in progress for that plugin. Try again later."
+     - Changed "Plugin updating is globally disabled - (Update request ignored)"
+            to "Updating is globally disabled - (Update request ignored)"
+     - Changed "The requested update action could not be performed because the bukkit API key specified in the updaters config was incorrect."
+     		to "Requested update task couldn't be performed because the bukkit API key specified in the updaters config is incorrect."
+     - Changed "The requested update action could not be performed because the plugin author has specified an incorrect plugin id.
+     			Please ask the author of {plugin} to correct this."
+     		to "Requested update task couldn't be performed due to incorrect plugin id.
+     			Please ask the author of {plugin} to correct this."
+     - Changed "Failed to connect to the bukkit servers!" to "Failed to connect to bukkit servers!"
+     - Changed "This is a version tagged for non-update. (DEV, PRE, etc.)"
+     		to "Server version tagged for non-update. (DEV, PRE, etc.)"
+     - Changed "If you have not recently modified your configuration and this is the first time you are seeing this message,
+     			the site may be experiencing temporary downtime."
+     		to "The site may be experiencing heavy load or temporary downtime."
+     - Changed "dev.bukkit.org rejected the API key provided in plugins/Updater/config.yml"
+     		to "curseforge.com rejected the API key provided in plugins/Updater/config.yml"
+     - Changed "The updater could not contact dev.bukkit.org for updating."
+     		to "The updater could not contact curseforge.com for updating."
+	 
+v1.3 - [tl:dr!]
+
+	Condensed some status messages to reduce unnecessary text volume.
+	 - Changed "Update check finished:" to "Result:". (NO_UPDATE)
+	 - Changed "PluginUpdater update-check success!" to "Result:". (UPDATE_AVAILABLE)
+	 - Changed "PluginUpdater bukkit-lookup success!" to "Result:". (LOOKUP_SUCCESS)
+	 - Changed "Version running on server:" to "Server version:".
+	 - Changed "Latest version on bukkit:" to "Bukkit version:".
+	 - Changed "Plugin Updater successfully downloaded {pluginname}." to "Result: {pluginname} downloaded!". (UPDATE_DOWNLOADED)
+	 - Changed "The update auto cancelled. Cause:" to "Result: Cancelled.". (SPECIAL_TAG)
+	 - Changed "The Plugin Updater has not completed the requested update tasks for {pluginname} yet. Please wait..."
+	   to "Previous update tasks for {pluginname} still in progress. Please wait..."
+	 - Changed "Plugin update failed: could not download {pluginname}" to "Failed to download {pluginname}".
+	 - Changed "Requested update action for {pluginname} could not be performed.\n"
+    		   "Cause: The updater was unable to connect to the bukkit servers. Try again later..."
+       to "Failed to connect to the bukkit servers!\n(Cancelled update action for {pluginname}.)". (FAIL_CONNECTION)
+     - Changed "Plugin updating is globally disabled - the requested update action could not be performed."
+       to "Plugin updating is globally disabled - (Update request ignored)". (DISABLED)
+     - Changed "Successfully started update action {action} for {pluginname}"
+       to "Update action {action} started for {pluginname}". (SUCCESS_STARTED)
+    Added some throwing of NullArgumentExceptions for required arguments (and a few more console warnings):
+	 - easyUpdate(..) throws if plugin or file is null. (Already warned.)
+	 - getUpdater(..) warns and throws if plugin is null.
+	 - announceTryResponse(..) warns and throws if plugin or response is null.
+	 - announceResult(..) warns and throws if plugin or result is null.
+	Fixed a small behavioral discrepancy for the boolean return value of AnnounceTargets.addTarget(CommandSender sender)
+	 - It now correctly returns false if sender is a ConsoleSender and the console is already a target.
+	Added more javadoc / made a lot of improvements to existing javadoc.
+	 
+v1.2.1 - [small improvements]
+
+	Some javadoc improvements.
+	Added MSG_PREFIX_AVAILABLE which replaces MSG_PREFIX_SUCCESS for when an update is found.
+	 - Has different color from normal "success" to be more easily spotted.
+	Fixed second and third row of SPECIAL_TAG result announce message incorrectly using MSG_PREFIX_SUCCESS.
+	Now prints out plugin author name on FAIL_BADID result and on FAIL_PARAMETERS response.
+	 - Author uses COLOR_BUKKIT ChatColor.
+
+v1.2 - [java 1.6]
+
+	When displaying the running plugin name plugin version is now also always displayed.
+	Doesn't allow usage on plugins that aren't enabled (specifically plugin.isEnabled() must be true).
+	 - This is to prevent mystical errors that can be thrown if trying to use a plugin before initialization is completed.
+	  ...Common problem cause is using the PluginUpdater in a field initialization.
+	 - Prints out a (huge) descriptive warning in case this happens.
+	When displaying a successful lookup or check result the running plugin and bukkit version is displayed for comparison.
+	No longer warns if the plugin has lost its PluginUpdater reference - message reformulated and demoted from warning to info.
+	The set-functions of the AnnounceTweak-class now returns the AnnounceTweak instance for easy chaining.
+	Changed MSG_PREFIX_MIXEDRESULT ChatColor from Yellow to Gold (so it stands slightly apart from the yellow text).
+	Changed 1 line of code to make it Java 1.6 compliant.
+
+v1.1 - [true fork - major rewrite]
+	
+	Code completely redesigned!
+	 - Removed all blocking methods
+	 - Added lots of optional advanced features
+	 - Remains very easy to use / implement!
+	 - Grew from 500 to 2000 lines of code.
+	 - Too much to list here... OK, I'm lazy - use the javadoc! :)
+	Most importantly it __never__ blocks and can execute Runnable objects in the main thread on update action completion.
+	It has "easy mode" methods that can automatically handle notification to CommandSenders,
+	One method call ->
+	 - update action
+	 - optional complete result notification to player(s) and/or console (pre action notification + post action results)
+	 - optional custom message added if "update available" result. (requires prior one-time initialization)
+	  ...Intended to be used to tell user what command to use to download the found update.
+
+v1.0 - [initial fork / branch]
+	
+	Was still rather similar to original Updater 2.0, but with added non-blocking alternative ways to retrieve result.
+	But coded as I went along ("explorative coding") so code design suffered a bit... 
