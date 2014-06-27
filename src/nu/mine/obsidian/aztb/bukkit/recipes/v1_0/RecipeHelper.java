@@ -39,7 +39,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 //TODO: testing
 
 /**
- * Small helper class with static methods for comparing ingredients of Bukkit {@link Recipe}s,
+ * Tool class with static methods for comparing ingredients of Bukkit {@link Recipe}s,
  * comparing {@link ItemStack}s and adding/removing {@link Recipe}s from a {@link Server}.
  * @author AnorZaken
  * @version 1.0
