@@ -233,4 +233,26 @@ public class Version //IMMUTABLE! //TODO: tons of javadoc
 		
 		return new Version(versionServer, mMaj, mMin, mRev, rMaj, rMin, b, versionAPI, serverType, software, build);
 	}
+	
+	
+//	/**
+//	 * FOR TESTING Version.java
+//	 * @param server a {@link Server}
+//	 * @return a string containing all version data after processing (or <code>null</code>)
+//	 */
+//	public static String debug(final Server server)
+//	{
+//		final Version version = getVersion(server);
+//		
+//		return  "version: " + version.getServerVersion() + "\n" +
+//				"type: " + version.getServerType() + "\n" +
+//				"api: " + version.getServerAPIVersion() + "\n" +
+//				"software: " + version.getServerSoftware() + "\n" +
+//				"buildName: " + version.getServerBuildName() + "\n" +
+//				"buildNum: " + version.getServerBuildNumber() + "\n" +
+//				"from numbers... " + version.getMcMajor() + "." + version.getMcMinor() + "." +
+//				version.getMcRevision() + "-R" + version.getReMajor() + "." +
+//				version.getReMinor() + "\n" +
+//				"toString: " + version;
+//	}
 }
