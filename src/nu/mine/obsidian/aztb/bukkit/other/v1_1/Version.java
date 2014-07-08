@@ -18,12 +18,15 @@ package nu.mine.obsidian.aztb.bukkit.other.v1_1;
  * along with AZTB.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import javax.annotation.concurrent.Immutable;
+
 import org.bukkit.Server;
 
 /**
  * Greatly simplifies {@link Server} version checking tasks (Bukkit/Spigot/Cauldron).
  * </p>
  * <b>There is no public constructor - use {@link #getVersion(Server)} instead!</b>
+ * <br>(Instances of {@link Version} are {@link Immutable}!)
  * </p>
  * To get the version as numbers, e.g. from "1.7.2-R0.3", use<br>{@link #getMcMajor()} ,
  *  {@link #getMcMinor()} , {@link #getMcRevision()} , {@link #getReMajor()} ,
@@ -61,9 +64,10 @@ import org.bukkit.Server;
  * 
  * @see Version#getVersion(Server)
  * @author AnorZaken
- * @version 1.1
+ * @version 1.1b
  */
-public class Version //IMMUTABLE! //TODO: tons of javadoc
+@Immutable
+public class Version
 {
 	// "The standard GNU version numbering scheme is major.minor.revision"
 	
@@ -87,17 +91,132 @@ public class Version //IMMUTABLE! //TODO: tons of javadoc
 		this.build = build;
 	}
 	
-	public String getServerVersion() { return version; } //TODO javadoc
-	public int getMcMajor() { return mc1; } //TODO javadoc
-	public int getMcMinor() { return mc2; } //TODO javadoc
-	public int getMcRevision() { return mc3; } //TODO javadoc
-	public int getReMajor() { return r1; } //TODO javadoc
-	public int getReMinor() { return r2; } //TODO javadoc
-	public String getServerAPIVersion() { return api; } //TODO javadoc
-	public String getServerSoftware() { return software; } //TODO javadoc
-	public String getServerType() { return type; } //TODO javadoc
-	public String getServerBuildName() { return build; } //TODO javadoc
-	public int getServerBuildNumber() { return b; } //TODO javadoc
+	/**
+	 * Get the raw server version string.
+	 * <br>Example output: <code>"git-Bukkit-1.7.2-R0.3-b3020jnks (MC: 1.7.2)"</code>
+	 * <br>(This is the same as calling {@link Server#getVersion()})
+	 */
+	public String getServerVersion() { return version; }
+	
+	/**
+	 * Get the Minecraft servers major version number. (API)
+	 * </p>Example: 1.7.2-R0.3
+	 * <br>&nbsp; 1 - McMajor
+	 * <br>&nbsp; 7 - McMinor
+	 * <br>&nbsp; 2 - McRevision
+	 * <br>&nbsp; 0 - ReMajor
+	 * <br>&nbsp; 3 - ReMinor
+	 * @return major version (int)
+	 * @see #getMcMajor()
+	 * @see #getMcMinor()
+	 * @see #getMcRevision()
+	 * @see #getReMajor()
+	 * @see #getReMinor()
+	 */
+	public int getMcMajor() { return mc1; }
+	
+	/**
+	 * Get the Minecraft servers minor version number. (API)
+	 * </p>Example: 1.7.2-R0.3
+	 * <br>&nbsp; 1 - McMajor
+	 * <br>&nbsp; 7 - McMinor
+	 * <br>&nbsp; 2 - McRevision
+	 * <br>&nbsp; 0 - ReMajor
+	 * <br>&nbsp; 3 - ReMinor
+	 * @return minor version (int)
+	 * @see #getMcMajor()
+	 * @see #getMcMinor()
+	 * @see #getMcRevision()
+	 * @see #getReMajor()
+	 * @see #getReMinor()
+	 */
+	public int getMcMinor() { return mc2; }
+	
+	/**
+	 * Get the Minecraft servers version revision number. (API)
+	 * </p>Example: 1.7.2-R0.3
+	 * <br>&nbsp; 1 - McMajor
+	 * <br>&nbsp; 7 - McMinor
+	 * <br>&nbsp; 2 - McRevision
+	 * <br>&nbsp; 0 - ReMajor
+	 * <br>&nbsp; 3 - ReMinor
+	 * @return version revision (int)
+	 * @see #getMcMajor()
+	 * @see #getMcMinor()
+	 * @see #getMcRevision()
+	 * @see #getReMajor()
+	 * @see #getReMinor()
+	 */
+	public int getMcRevision() { return mc3; }
+	
+	/**
+	 * Get the Minecraft servers major revision version number. (API)
+	 * </p>Example: 1.7.2-R0.3
+	 * <br>&nbsp; 1 - McMajor
+	 * <br>&nbsp; 7 - McMinor
+	 * <br>&nbsp; 2 - McRevision
+	 * <br>&nbsp; 0 - ReMajor
+	 * <br>&nbsp; 3 - ReMinor
+	 * @return major revision version (int)
+	 * @see #getMcMajor()
+	 * @see #getMcMinor()
+	 * @see #getMcRevision()
+	 * @see #getReMajor()
+	 * @see #getReMinor()
+	 */
+	public int getReMajor() { return r1; }
+	
+	/**
+	 * Get the Minecraft servers minor revision version number. (API)
+	 * </p>Example: 1.7.2-R0.3
+	 * <br>&nbsp; 1 - McMajor
+	 * <br>&nbsp; 7 - McMinor
+	 * <br>&nbsp; 2 - McRevision
+	 * <br>&nbsp; 0 - ReMajor
+	 * <br>&nbsp; 3 - ReMinor
+	 * @return minor revision version (int)
+	 * @see #getMcMajor()
+	 * @see #getMcMinor()
+	 * @see #getMcRevision()
+	 * @see #getReMajor()
+	 * @see #getReMinor()
+	 */
+	public int getReMinor() { return r2; }
+	
+	/**
+	 * Get the raw server API version string.
+	 * <br>Example output: <code>"1.7.2-R0.3"</code>
+	 * <br>(This is the same as calling {@link Server#getBukkitVersion()})
+	 */
+	public String getServerAPIVersion() { return api; }
+	
+	/**
+	 * Get the server software string use {@link #getServerSoftware()}
+	 * <br>Example output: <code>"Spigot"</code>
+	 * <br>(This is the second part of the server version string)
+	 */
+	public String getServerSoftware() { return software; }
+	
+	/**
+	 * Get the server type.
+	 * <br>Example output: <code>"Cauldron-MCPC-Plus"</code>
+	 * <br>(This is the same as calling {@link Server#getName()})
+	 */
+	public String getServerType() { return type; }
+	
+	/**
+	 * Get the build name.
+	 * <br>Example output: <code>"b3020jnks"</code>
+	 * <br>(This is the second last part of the server version string)
+	 */
+	public String getServerBuildName() { return build; }
+	
+	/**
+	 * Get the build number.
+	 * <br>Example output: <code>3020</code>
+	 * <br>(This is the last set of numbers inside the build-name)
+	 */
+	public int getServerBuildNumber() { return b; }
 	
 	/**
 	 * Compares this {@link Version} to a version described with <code>int</code> arguments.
@@ -148,8 +267,13 @@ public class Version //IMMUTABLE! //TODO: tons of javadoc
 		return compareTo(mcMajor, mcMinor, mcRevision, Integer.MIN_VALUE, Integer.MIN_VALUE);
 	}
 	
+	/**
+	 * Complete version information in a user friendly and display ready string.
+	 * <br><i>Example output:
+	 * <br>"CraftBukkit server git-Spigot-1529 (MC: 1.7.9) (Implementing API version 1.7.9-R0.3-SNAPSHOT)"</i>
+	 */
 	@Override
-	public String toString() { //TODO javadoc
+	public String toString() {
 		return type + " server " + version + " (Implementing API version " + api + ")";
 	}
 	
@@ -158,7 +282,12 @@ public class Version //IMMUTABLE! //TODO: tons of javadoc
 		return this == obj || (obj instanceof Version && version.equals(((Version)obj).version));
 	}
 	
-	public boolean equals(final Version version) { //TODO javadoc
+	/**
+	 * Compares this {@link Version} with another.
+	 * @param version other {@link Version}
+	 * @return <code>true</code> if both share the same raw version string, otherwise <code>false</code>.
+	 */
+	public boolean equals(final Version version) {
 		return this == version || (version != null && this.version.equals(version.version));
 	}
 	
@@ -167,7 +296,8 @@ public class Version //IMMUTABLE! //TODO: tons of javadoc
 		return version.hashCode();
 	}
 	
-	// ------------------
+	// =================================================
+	// =================== STATICS =====================
 	
 	private static Version instance = null;
 	
