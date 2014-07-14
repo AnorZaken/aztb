@@ -64,7 +64,7 @@ import org.bukkit.Server;
  * 
  * @see Version#getVersion(Server)
  * @author AnorZaken
- * @version 1.1b
+ * @version 1.1c
  */
 @Immutable
 public class Version
@@ -150,14 +150,14 @@ public class Version
 	public int getMcRevision() { return mc3; }
 	
 	/**
-	 * Get the Minecraft servers major revision version number. (API)
+	 * Get the Minecraft servers major release number. (API)
 	 * </p>Example: 1.7.2-R0.3
 	 * <br>&nbsp; 1 - McMajor
 	 * <br>&nbsp; 7 - McMinor
 	 * <br>&nbsp; 2 - McRevision
 	 * <br>&nbsp; 0 - ReMajor
 	 * <br>&nbsp; 3 - ReMinor
-	 * @return major revision version (int)
+	 * @return major release version (int)
 	 * @see #getMcMajor()
 	 * @see #getMcMinor()
 	 * @see #getMcRevision()
@@ -167,14 +167,14 @@ public class Version
 	public int getReMajor() { return r1; }
 	
 	/**
-	 * Get the Minecraft servers minor revision version number. (API)
+	 * Get the Minecraft servers minor release number. (API)
 	 * </p>Example: 1.7.2-R0.3
 	 * <br>&nbsp; 1 - McMajor
 	 * <br>&nbsp; 7 - McMinor
 	 * <br>&nbsp; 2 - McRevision
 	 * <br>&nbsp; 0 - ReMajor
 	 * <br>&nbsp; 3 - ReMinor
-	 * @return minor revision version (int)
+	 * @return minor release version (int)
 	 * @see #getMcMajor()
 	 * @see #getMcMinor()
 	 * @see #getMcRevision()
