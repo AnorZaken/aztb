@@ -238,94 +238,112 @@ public class SubCommandGroup implements TabExecutor
 			this.stringProvider = stringProvider;
 		}
 		
+		@Override
 		public String sc_aliasesPrefix()
 		{
 			return stringProvider == null ? SubCommand.MSG_ALIAS : stringProvider.sc_aliasesPrefix();
 		}
+		@Override
 		public String scg_verifyNullName(String parentName)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_verifyNullName(parentName)) != null)
 					? s : String.format(MSG_VERI_NULL_1, parentName);
 		}
+		@Override
 		public String scg_verifyDuplicateName(String parentName, String duplicateName)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_verifyDuplicateName(parentName, duplicateName)) != null)
 					? s : String.format(MSG_VERI_DUPL_2, parentName, duplicateName);
 		}
+		@Override
 		public String scg_usagePrefix()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_usagePrefix()) != null)
 					? s : MSG_USAGE;
 		}
+		@Override
 		public String scg_unavailable(String label)
 		{
 			return stringProvider == null ? (label + " is not available") : stringProvider.scg_unavailable(label);
 		}
+		@Override
 		public String scg_incorrectNumArgs()
 		{
 			return stringProvider == null ? MSG_INC_NUM_ARGS : stringProvider.scg_incorrectNumArgs();
 		}
+		@Override
 		public String scg_help_usageParameters()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_help_usageParameters()) != null)
 					? s : MSG_HLP_USAGE;
 		}
+		@Override
 		public String scg_help_alias()
 		{
 			return stringProvider == null ? null : stringProvider.scg_help_alias();
 		}
+		@Override
 		public String scg_help_sorry(String unavailableLabel)
 		{
 			return stringProvider == null ? ("No help found for " + unavailableLabel) : stringProvider.scg_help_sorry(unavailableLabel);
 		}
+		@Override
 		public String scg_help_noDesc()
 		{
 			return stringProvider == null ? null : stringProvider.scg_help_noDesc();
 		}
+		@Override
 		public String scg_help_description()
 		{
 			return stringProvider == null ? MSG_HLP_DESC : stringProvider.scg_help_description();
 		}
+		@Override
 		public String scg_usageHeaderKey()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_usageHeaderKey()) != null)
 					? s : MSG_USG_KEY;
 		}
+		@Override
 		public String scg_usageHeaderCommand()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_usageHeaderCommand()) != null)
 					? s : MSG_USG_COM;
 		}
+		@Override
 		public String scg_usageHeaderRequired()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_usageHeaderRequired()) != null)
 					? s : MSG_USG_REQ;
 		}
+		@Override
 		public String scg_usageHeaderOptional()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_usageHeaderOptional()) != null)
 					? s : MSG_USG_OPT;
 		}
+		@Override
 		public String scg_unregistered()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_unregistered()) != null)
 					? s : MSG_UNREG;
 		}
+		@Override
 		public String scg_verifyNullAlias(String parentName, String commandName)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.scg_verifyNullAlias(parentName, commandName)) != null)
 					? s : String.format(MSG_VERI_NULL_2, parentName, commandName);
 		}
+		@Override
 		public String scg_verifyAliasName(String parentName, String aliasOwnerName, String alias, boolean enforceUnique)
 		{
 			if (stringProvider != null) {
@@ -335,6 +353,7 @@ public class SubCommandGroup implements TabExecutor
 			}
 			return String.format(MSG_VERI_ALIAS_NAME_3, parentName, aliasOwnerName, alias);
 		}
+		@Override
 		public String scg_verifyAliasAlias(String parentName, String name1,
 				String name2, String alias, boolean enforceUnique)
 		{
@@ -345,6 +364,7 @@ public class SubCommandGroup implements TabExecutor
 			}
 			return String.format(MSG_VERI_ALIAS_ALIAS_4, parentName, name1, name2, alias);
 		}
+		@Override
 		public String scg_verifyAliasRemoved(String parentName, String commandName, String alias)
 		{
 			return stringProvider == null ? String.format(MSG_VERI_ALIAS_REMOVED_3, parentName, commandName, alias)

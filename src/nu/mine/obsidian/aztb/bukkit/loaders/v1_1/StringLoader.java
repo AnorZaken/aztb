@@ -263,73 +263,86 @@ public class StringLoader<T extends JavaPlugin>
 			this.stringProvider = stringProvider;
 		}
 		
+		@Override
 		public String cfg_warnMalformed(String entry, String filename)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_warnMalformed(entry, filename)) != null)
 					? s : String.format(MSG_MALFORMED_2, entry, filename);
 		}
+		@Override
 		public String cfg_unrecognizedKeys(int count, String filename)
 		{
 			return stringProvider == null ? String.format(MSG_COUNT_UNREC_2, filename, count)
 					: stringProvider.cfg_unrecognizedKeys(count, filename);
 		}
+		@Override
 		public String cfg_saveFileExists(String filename)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_saveFileExists(filename)) != null)
 					? s : String.format(MSG_FILE_EXIST_1, filename);
 		}
+		@Override
 		public String cfg_loading(String filename)
 		{
 			return stringProvider == null ? String.format(MSG_LOADING_1, filename)
 					: stringProvider.cfg_loading(filename);
 		}
+		@Override
 		public String cfg_istlStrIsNull(String cfg)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_istlStrIsNull(cfg)) != null)
 					? s : String.format(MSG_ISTL_STR_NULL_1, cfg);
 		}
+		@Override
 		public String cfg_istlIsNull()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_istlIsNull()) != null)
 					? s : MSG_ISTL_NULL;
 		}
+		@Override
 		public String cfg_istlCfgIsNull()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_istlCfgIsNull()) != null)
 					? s : MSG_ISTL_CFG_NULL;
 		}
+		@Override
 		public String cfg_fileYAMLInvalid(String filename)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_fileYAMLInvalid(filename)) != null)
 					? s : String.format(MSG_YAML_FAIL_1, filename);
 		}
+		@Override
 		public String cfg_fileLoadFail(String filename)
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_fileLoadFail(filename)) != null)
 					? s : String.format(MSG_LOAD_FAIL_1, filename);
 		}
+		@Override
 		public String cfg_errorSaving()
 		{
 			final String s;
 			return (stringProvider != null && (s = stringProvider.cfg_errorSaving()) != null)
 					? s : MSG_SAVE_ERR;
 		}
+		@Override
 		public String cfg_errorLoading() //cfg_errorLoading() is used by YAMLLoader - and if it is null YAMLLoader uses its own default msg!
 		{
 			return stringProvider == null ? null : stringProvider.cfg_errorLoading();
 		}
+		@Override
 		public String cfg_entryMissing(String entry, String filename)
 		{
 			return stringProvider == null ? String.format(MSG_MISSING_2, entry, filename)
 					: stringProvider.cfg_entryMissing(entry, filename);
 		}
+		@Override
 		public String cfg_addedMissing(int count, String filename)
 		{
 			return stringProvider == null ? String.format(MSG_COUNT_MISS_2, count, filename)

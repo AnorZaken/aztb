@@ -106,6 +106,7 @@ public abstract class SubCommand extends SCBase
 	{
 		this.msgProvider = msgProvider != null ? msgProvider
 				: new IStringProvider() {
+			@Override
 			public String sc_aliasesPrefix() { return MSG_ALIAS; }
 		};
 	}
