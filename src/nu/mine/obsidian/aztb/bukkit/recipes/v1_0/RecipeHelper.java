@@ -42,7 +42,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Tool class with static methods for comparing ingredients of Bukkit {@link Recipe}s,
  * comparing {@link ItemStack}s and adding/removing {@link Recipe}s from a {@link Server}.
  * @author AnorZaken
- * @version 1.0
+ * @version 1.0b
  */
 public class RecipeHelper
 {
@@ -436,7 +436,7 @@ public class RecipeHelper
 		
 		//Shape dimensions match, proceed to Check actual items
 		final Map<Character, ItemStack> im1 = shaped1.getIngredientMap();
-		final Map<Character, ItemStack> im2 = shaped1.getIngredientMap();
+		final Map<Character, ItemStack> im2 = shaped2.getIngredientMap();
 		for(int i = 0; i < h1; ++i)
 		{
 			for(int j = 0; j < w1; ++j)
