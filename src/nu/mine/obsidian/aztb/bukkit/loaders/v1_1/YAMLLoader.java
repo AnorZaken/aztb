@@ -84,13 +84,6 @@ public class YAMLLoader<T extends JavaPlugin>
 		return filename;
 	}
 	
-	/**
-	 * Checks if the plugin associated with this {@link YAMLLoader} is enabled.
-	 */
-	public boolean isPluginEnabledAndHasFolder() {
-		return plugin.isEnabled() && plugin.getDataFolder() != null;
-	}
-	
 	
 	// ===========================
 	
