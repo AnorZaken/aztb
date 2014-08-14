@@ -195,7 +195,7 @@ public class YAMLLoader<T extends JavaPlugin>
 		 */
 		public boolean isFileFound = true;
 		/**
-		 * Will be {@code true} if attempting to load resulted in InvalidConfiguration.
+		 * Will be {@code false} if attempting to load resulted in InvalidConfiguration.
 		 */
 		public boolean isValidConfig = true;
 	}
