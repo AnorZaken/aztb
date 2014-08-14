@@ -36,14 +36,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  * <p/>(*<i>Sometimes you want to load a file </i>if<i> it exists - then FileNotFound is not an error.</i>)
  * 
  * @author AnorZaken
- * @version 1.1b
+ * @version 1.1c
  * 
  * @param <T> {@link JavaPlugin} using {@link YAMLLoader}
  */
 public class YAMLLoader<T extends JavaPlugin>
 {
-	private static final String MESSAGE_ERROR_LOADING = ChatColor.RED + "Error loading config, see server log for details.";
-	private static final String MESSAGE_ERROR_SAVING = ChatColor.RED + "Error saving config, see server log for details.";
+	private static final String MESSAGE_ERROR_LOADING = "Error loading config, see server log for details.";
+	private static final String MESSAGE_ERROR_SAVING = "Error saving config, see server log for details.";
 	
 	protected final T plugin;
 	protected final String filename;
@@ -82,6 +82,13 @@ public class YAMLLoader<T extends JavaPlugin>
 	 */
 	public String getFileName() {
 		return filename;
+	}
+	
+	/**
+	 * Checks if the plugin associated with this {@link YAMLLoader} is enabled.
+	 */
+	public boolean isPluginEnabledAndHasFolder() {
+		return plugin.isEnabled() && plugin.getDataFolder() != null;
 	}
 	
 	
