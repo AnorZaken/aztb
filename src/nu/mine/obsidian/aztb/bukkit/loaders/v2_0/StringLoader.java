@@ -20,7 +20,7 @@ package nu.mine.obsidian.aztb.bukkit.loaders.v2_0;
 
 import java.util.ArrayList;
 
-import nu.mine.obsidian.aztb.bukkit.loaders.v1_1.YAMLLoader;
+import nu.mine.obsidian.aztb.bukkit.loaders.v1_2.YAMLLoader;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
