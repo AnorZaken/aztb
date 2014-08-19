@@ -34,7 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * {@link ISubscriber#getStringToLoadArray(int)} to acquire these on each load.</i> )<br>
  * 
  * @author AnorZaken
- * @version 2.0
+ * @version 2.0a
  * @param <T> {@link JavaPlugin} using {@link StringLoader}
  */
 public class StringLoader<T extends JavaPlugin>
@@ -583,6 +583,10 @@ public class StringLoader<T extends JavaPlugin>
 		
 		
 		YamlConfiguration yaml = yamlResult.yaml == null ? new YamlConfiguration() : yamlResult.yaml;
+		
+		if (pathSeparator != null)
+			yaml.options().pathSeparator(pathSeparator.charValue());
+		
 		int totalCount = 0;
 		int missingCount = 0;
 		int malformedCount = 0;
