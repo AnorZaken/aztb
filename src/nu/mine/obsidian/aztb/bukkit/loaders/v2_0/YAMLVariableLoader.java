@@ -36,7 +36,7 @@ import org.bukkit.util.Vector;
  * ... For String loading see also {@link StringLoader} )</i>
  * 
  * @author AnorZaken
- * @version 2.0
+ * @version 2.0a
  */
 public abstract class YAMLVariableLoader
 {
@@ -525,9 +525,10 @@ public abstract class YAMLVariableLoader
 		for(YAMLChatColor variable : variables) // <----- type
 		{
 			final String cfg = loadHelper(config, variable);
-			boolean save = false;
+			boolean save;
 			if(config.isString(cfg))
 			{
+				save = false;
 				ChatColor value = null; // <----- type
 				try {
 					value = ChatColor.valueOf(config.getString(cfg)); // <-- type
@@ -539,6 +540,8 @@ public abstract class YAMLVariableLoader
 					continue;
 				}
 			}
+			else
+				save = true;
 			if (save)
 			{
 				final ChatColor value; // <----- type
