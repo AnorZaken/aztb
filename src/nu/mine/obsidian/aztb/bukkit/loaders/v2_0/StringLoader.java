@@ -20,7 +20,7 @@ package nu.mine.obsidian.aztb.bukkit.loaders.v2_0;
 
 import java.util.ArrayList;
 
-import nu.mine.obsidian.aztb.bukkit.loaders.v1_2.YAMLLoader;
+import nu.mine.obsidian.aztb.bukkit.loaders.v1_3.YAMLLoader;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,7 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * {@link ISubscriber#getStringToLoadArray(int)} to acquire these on each load.</i> )<br>
  * 
  * @author AnorZaken
- * @version 2.0a
+ * @version 2.0b
  * @param <T> {@link JavaPlugin} using {@link StringLoader}
  */
 public class StringLoader<T extends JavaPlugin>
@@ -552,6 +552,9 @@ public class StringLoader<T extends JavaPlugin>
 		
 //		if (notExistAction == null) //With current code this has no effect on the result...
 //			notExistAction = NotExistAction.FAIL_SOFT;
+		
+		if (pathSeparator != null)
+			loader.pathSeparator(pathSeparator.charValue());
 		
 		YAMLLoader.YAMLResult yamlResult = loader.loadYaml(sender, notExistAction == NotExistAction.FAIL_HARD, msgProvider.cfg_errorLoading());
 		
