@@ -36,7 +36,7 @@ import org.bukkit.util.Vector;
  * ... For String loading see also {@link StringLoader} )</i>
  * 
  * @author AnorZaken
- * @version 2.0a
+ * @version 2.0b
  */
 public abstract class YAMLVariableLoader
 {
@@ -321,7 +321,7 @@ public abstract class YAMLVariableLoader
 		for(YAMLLong variable : variables) // <----- type
 		{
 			final String cfg = loadHelper(config, variable);
-			if(config.isLong(cfg)) { // <-------------------- type
+			if(config.isInt(cfg) || config.isLong(cfg)) { // <---- type (if number fits inside int then isLong reports false!)
 				variable.setValue(config.getLong(cfg)); // <--- type
 				continue;
 			} else {
