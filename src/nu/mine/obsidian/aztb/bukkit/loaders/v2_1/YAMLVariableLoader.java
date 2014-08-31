@@ -36,7 +36,7 @@ import org.bukkit.util.Vector;
  * ... For String loading see also {@link StringLoader} )</i>
  * 
  * @author AnorZaken
- * @version 2.1
+ * @version 2.1b
  */
 public abstract class YAMLVariableLoader
 {
@@ -54,11 +54,7 @@ public abstract class YAMLVariableLoader
 		public String getName();
 	}
 	
-	public static interface YAMLGeneric<E> extends YAMLVariable
-	{
-		public String getValueAsString();
-		public void setValueFromString(String value);
-	}
+	// ---
 	
 	public static interface YAMLBool extends YAMLVariable
 	{
@@ -122,6 +118,12 @@ public abstract class YAMLVariableLoader
 		public ChatColor getChatColor();
 		public void setValue(ChatColor value);
 	}
+	//--- v2.1
+	public static interface YAMLGeneric extends YAMLVariable
+	{
+		public String getValueAsString();
+		public void setValueFromString(String value);
+	}
 	
 	// ====================
 	
@@ -141,24 +143,24 @@ public abstract class YAMLVariableLoader
 	// ------
 	
 	/**
-	 * Attempts to load some {@link YAMLGeneric<E>} from a {@link ConfigurationSection}.
+	 * Attempts to load some {@link YAMLGeneric} from a {@link ConfigurationSection}.
 	 * @param config the {@link ConfigurationSection} to read/write from/to. <b>Must be non-<code>null</code>!</b>
 	 * @param readonly if a variable doesn't exist in the {@link ConfigurationSection} (or exists but isn't of
 	 *  the expected type) and this is <code>false</code> the variable will be added to the config with the
-	 *  current value of {@link YAMLGeneric<E>#getValueAsString() variable.getValueAsString()} (good for default initialization!)
-	 * @param variables some {@link YAMLGeneric<E>} to load(/initialize) from(/to) the {@link ConfigurationSection}.
+	 *  current value of {@link YAMLGeneric#getValueAsString() variable.getValueAsString()} (good for default initialization!)
+	 * @param variables some {@link YAMLGeneric} to load(/initialize) from(/to) the {@link ConfigurationSection}.
 	 *  <b>Must be non-<code>null</code>!</b>
 	 * @return <code>null</code> if all variables was loaded from the config, otherwise a {@link List} of all
 	 *  variables that failed to load
 	 * @throws IllegalArgumentException if any argument is <code>null</code> or empty
 	 * @throws IllegalStateException if {@link YAMLVariable#getName() variable.getName()} is <code>null</code> or empty
 	 */
-	public static <E> List<YAMLGeneric<E>> load(final ConfigurationSection config, final boolean readonly, final YAMLGeneric<E>... variables)
+	public static List<YAMLGeneric> load(final ConfigurationSection config, final boolean readonly, final YAMLGeneric... variables)
 	{
 		if(variables == null || variables.length == 0)
 			throw new IllegalArgumentException("variables null or empty");
-		ArrayList<YAMLGeneric<E>> list = null; // <----- type
-		for(YAMLGeneric<E> variable : variables) // <----- type
+		ArrayList<YAMLGeneric> list = null; // <----- type
+		for(YAMLGeneric variable : variables) // <----- type
 		{
 			final String cfg = loadHelper(config, variable);
 			if(config.isString(cfg)) { // <------------------------------- type
@@ -167,7 +169,7 @@ public abstract class YAMLVariableLoader
 			} else {
 				if(!readonly)
 					config.set(cfg, variable.getValueAsString()); // <----------- type
-				(list == null ? list = new ArrayList<YAMLGeneric<E>>() : list).add(variable); // <-- type
+				(list == null ? list = new ArrayList<YAMLGeneric>() : list).add(variable); // <-- type
 			}
 		}
 		return list;
